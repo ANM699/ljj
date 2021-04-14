@@ -1,10 +1,26 @@
 // import logo from "./logo.svg";
-import { Button } from "antd-mobile";
+import { useRef } from "react";
+import { Button, InputItem } from "antd-mobile";
+
 import { genReport } from "./utils/index";
 // import "./App.css";
 
 function App() {
-  return <Button onClick={genReport}>导出</Button>;
+  const fileInput = useRef(null);
+
+  const handleClick = () => {
+    console.log(fileInput.current);
+    console.log(fileInput.current.inputRef.inputRef.files[0]);
+    const file = fileInput.current.inputRef.inputRef.files[0];
+    genReport(file);
+  };
+
+  return (
+    <div>
+      <InputItem type="file" ref={fileInput}></InputItem>
+      <Button onClick={handleClick}>导出</Button>
+    </div>
+  );
 }
 
 export default App;

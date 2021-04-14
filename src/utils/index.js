@@ -1,28 +1,43 @@
 import createReport from "docx-templates";
 import JSZipUtils from "jszip-utils";
 
-export const genReport = () => {
-  JSZipUtils.getBinaryContent(
-    "./templates/myTemplate.docx",
-    async (error, template) => {
-      if (error) throw error;
-      const report = createReport({
-        template,
-        data: {
-          name: "John",
-          surname: "Appleseed",
-        },
-        cmdDelimiter: ["{", "}"],
-      });
-      // Save report
-      saveDataToFile(
-        report,
-        "report.docx",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      );
-    }
+export async function genReport(file) {
+  const template = await readFileIntoArrayBuffer(file);
+  const report = createReport({
+    template,
+    data: {
+      name: "John",
+      // surname: "Appleseed",
+    },
+    // cmdDelimiter: ["{", "}"],
+  });
+  // Save report
+  saveDataToFile(
+    report,
+    "report.docx",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   );
-};
+  // JSZipUtils.getBinaryContent(
+  //   "./templates/myTemplate.docx",
+  //   async (error, template) => {
+  //     if (error) throw error;
+  //     const report = createReport({
+  //       template,
+  //       data: {
+  //         name: "John",
+  //         surname: "Appleseed",
+  //       },
+  //       cmdDelimiter: ["{", "}"],
+  //     });
+  //     // Save report
+  //     saveDataToFile(
+  //       report,
+  //       "report.docx",
+  //       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  //     );
+  //   }
+  // );
+}
 
 // ==============================================
 // Helpers
