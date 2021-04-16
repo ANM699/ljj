@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
     "antd-mobile": "^2.3.4",
+    "date-fns": "^2.21.1",
     "docx-templates": "^4.6.0",
     "jszip-utils": "^0.1.0",
     "rc-form": "^2.4.12",
@@ -21,6 +22,7 @@
     "build": "react-app-rewired build",
     "test": "rreact-app-rewired test",
     "eject": "react-scripts eject",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
