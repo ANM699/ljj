@@ -22,8 +22,9 @@ export default function Main() {
           text: '确定',
           onPress: (value) => {
             if (value && db) {
-              addToStore(db, 'projects', value);
+              return addToStore(db, 'projects', value);
             } else {
+              return Promise.reject();
             }
           },
         },
