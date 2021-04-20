@@ -55,6 +55,7 @@ export default function Main({ history }) {
   return (
     <>
       <NavBar mode="dark">项目列表</NavBar>
+      <WhiteSpace />
       <List>
         {projects.map((project) => (
           <Item
