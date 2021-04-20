@@ -9,12 +9,11 @@ import {
   WingBlank,
   WhiteSpace,
 } from 'antd-mobile';
-import { genReport } from './utils/index';
-// import "./App.css";
+import { genReport } from '../utils/index';
 
 const Item = List.Item;
 
-function App({ form }) {
+function Record({ form }) {
   //上传模版
   // const fileInput = useRef(null);
   // const handleClick = () => {
@@ -124,4 +123,4 @@ function App({ form }) {
   );
 }
 
-export default createForm()(App);
+export default createForm()(Record);
