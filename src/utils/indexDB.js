@@ -2,11 +2,18 @@ let db = null;
 
 const initDB = async () =>
   await new Promise((resolve, reject) => {
-    const request = window.indexedDB.open("ljjDB");
+    const request = window.indexedDB.open('ljjDB');
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
-      if (!db.objectStoreNames.contains("projects")) {
-        db.createObjectStore("projects", { autoIncrement: true });
+      let objectStore = null;
+      if (!db.objectStoreNames.contains('projects')) {
+        //项目表
+        db.createObjectStore('projects', { autoIncrement: true });
+      }
+      if (!db.objectStoreNames.contains('columns')) {
+        //柱记录表
+        objectStore = db.createObjectStore('columns', { autoIncrement: true });
+        objectStore.createIndex('projectId', 'projectId', { unique: false });
       }
     };
     request.onsuccess = function (event) {
@@ -15,15 +22,15 @@ const initDB = async () =>
     };
     request.onerror = function () {
       reject();
-      console.error("数据库初始化失败！");
+      console.error('数据库初始化失败！');
     };
   });
 
 export const insertData = async (store, data) => {
-  const db = await initDB();
+  await initDB();
   return await new Promise((resolve, reject) => {
     const request = db
-      .transaction([store], "readwrite")
+      .transaction([store], 'readwrite')
       .objectStore(store)
       .add(data);
     request.onsuccess = function (event) {
@@ -38,19 +45,48 @@ export const insertData = async (store, data) => {
     };
   });
 };
-
+//查询所有数据
 export const selectAllData = async (store) => {
-  const db = await initDB();
+  await initDB();
   return await new Promise((resolve, reject) => {
     const data = [];
     const request = db
-      .transaction(store, "readonly")
+      .transaction(store, 'readonly')
       .objectStore(store)
       .openCursor();
     request.onsuccess = function (event) {
       const cursor = event.target.result;
       if (cursor) {
-        const item = { id: cursor.key, ...cursor.value };
+        console.log(cursor);
+        const item = { id: cursor.primaryKey, ...cursor.value };
+        data.push(item);
+        cursor.continue();
+      } else {
+        resolve(data);
+        db.close();
+      }
+    };
+    request.onerror = function () {
+      reject();
+      console.error(`${store}数据查询失败！`);
+    };
+  });
+};
+//根据索引条件查询数据
+export const selectDataByIndex = async (store, indexName, params) => {
+  await initDB();
+  return await new Promise((resolve, reject) => {
+    const data = [];
+    const range = IDBKeyRange.only(params);
+    const request = db
+      .transaction(store, 'readonly')
+      .objectStore(store)
+      .index(indexName)
+      .openCursor(range);
+    request.onsuccess = function (event) {
+      const cursor = event.target.result;
+      if (cursor) {
+        const item = { id: cursor.primaryKey, ...cursor.value };
         data.push(item);
         cursor.continue();
       } else {
