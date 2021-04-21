@@ -17,22 +17,17 @@ export async function genReport(data) {
   //   "report.docx",
   //   "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   // );
-
+  console.log(data);
   JSZipUtils.getBinaryContent(
     "./templates/F-05.docx",
+    // "./templates/template.docx",
+    // "./templates/myTemplate.docx",
     async (error, template) => {
       if (error) throw error;
       const report = await createReport({
         template,
         // data: {
-        //   projectName: "测试项目",
-        //   equipmentName: "设备",
-        //   detectDate: "2021-4-15",
-        //   reportNo: "292831930",
-        //   c: {
-        //     position: "北",
-        //     section: [23, 21, 36],
-        //   },
+        //   columns: [{}, {}],
         // },
         data,
         cmdDelimiter: ["{", "}"],

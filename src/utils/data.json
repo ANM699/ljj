@@ -14,7 +14,7 @@
     "equip": "检测设备及名称",
     "date": "检测时间",
     "column": {
-        "location": "",
+        "position": "",
         "section_s_m": [
             1,
             2,

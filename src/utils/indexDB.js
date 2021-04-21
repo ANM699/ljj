@@ -2,18 +2,18 @@ let db = null;
 
 const initDB = async () =>
   await new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('ljjDB');
+    const request = window.indexedDB.open("ljjDB");
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
       let objectStore = null;
-      if (!db.objectStoreNames.contains('projects')) {
+      if (!db.objectStoreNames.contains("projects")) {
         //项目表
-        db.createObjectStore('projects', { autoIncrement: true });
+        db.createObjectStore("projects", { autoIncrement: true });
       }
-      if (!db.objectStoreNames.contains('columns')) {
+      if (!db.objectStoreNames.contains("columns")) {
         //柱记录表
-        objectStore = db.createObjectStore('columns', { autoIncrement: true });
-        objectStore.createIndex('projectId', 'projectId', { unique: false });
+        objectStore = db.createObjectStore("columns", { autoIncrement: true });
+        objectStore.createIndex("projectId", "projectId", { unique: false });
       }
     };
     request.onsuccess = function (event) {
@@ -22,7 +22,7 @@ const initDB = async () =>
     };
     request.onerror = function () {
       reject();
-      console.error('数据库初始化失败！');
+      console.error("数据库初始化失败！");
     };
   });
 
@@ -30,7 +30,7 @@ export const insertData = async (store, data) => {
   await initDB();
   return await new Promise((resolve, reject) => {
     const request = db
-      .transaction([store], 'readwrite')
+      .transaction([store], "readwrite")
       .objectStore(store)
       .add(data);
     request.onsuccess = function (event) {
@@ -51,13 +51,12 @@ export const selectAllData = async (store) => {
   return await new Promise((resolve, reject) => {
     const data = [];
     const request = db
-      .transaction(store, 'readonly')
+      .transaction(store, "readonly")
       .objectStore(store)
       .openCursor();
     request.onsuccess = function (event) {
       const cursor = event.target.result;
       if (cursor) {
-        console.log(cursor);
         const item = { id: cursor.primaryKey, ...cursor.value };
         data.push(item);
         cursor.continue();
@@ -79,7 +78,7 @@ export const selectDataByIndex = async (store, indexName, params) => {
     const data = [];
     const range = IDBKeyRange.only(params);
     const request = db
-      .transaction(store, 'readonly')
+      .transaction(store, "readonly")
       .objectStore(store)
       .index(indexName)
       .openCursor(range);
