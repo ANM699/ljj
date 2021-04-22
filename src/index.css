@@ -1,3 +1,6 @@
+* {
+  touch-action: none;
+}
 .title {
   padding: 15px 0 9px 15px;
   color: #000;

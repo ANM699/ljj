@@ -31,7 +31,7 @@ function TemplateList({ project, history }) {
     if (template.enable) {
       sessionStorage.setItem('curProject', JSON.stringify(project));
       sessionStorage.setItem('curTemplate', JSON.stringify(template));
-      history.push('/record/List');
+      history.push('/record');
     }
   };
   return (

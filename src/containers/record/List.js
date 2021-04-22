@@ -1,44 +1,96 @@
-import React, { useState, useEffect } from "react";
-import { List, Button, WhiteSpace, Flex, Toast } from "antd-mobile";
-import Container from "../../components/Container";
-import { selectDataByIndex } from "../../utils/indexDB";
-import { genReport } from "../../utils/index";
+import React, { useState, useEffect } from 'react';
+import {
+  List,
+  Button,
+  WhiteSpace,
+  Flex,
+  Toast,
+  ActivityIndicator,
+  SwipeAction,
+  Modal,
+} from 'antd-mobile';
+import { selectDataByIndex, deleteData } from '../../utils/indexDB';
+import { genReport } from '../../utils/docx';
+import { handleRecords } from '../../utils/index';
 
 const Item = List.Item;
+const alert = Modal.alert;
 
 export default function Rlist({ history }) {
-  const project = JSON.parse(sessionStorage.getItem("curProject"));
-  const template = JSON.parse(sessionStorage.getItem("curTemplate"));
+  const project = JSON.parse(sessionStorage.getItem('curProject'));
+  const template = JSON.parse(sessionStorage.getItem('curTemplate'));
   const [columns, setColumns] = useState([]);
+  const [animating, setAnimating] = useState(false);
 
   useEffect(() => {
-    selectDataByIndex("columns", "projectId", project.id).then((res) => {
+    selectDataByIndex('columns', 'projectId', project.id).then((res) => {
       setColumns(res);
     });
   }, [project.id]);
 
   const handleAddClick = () => {
-    history.push("/record/add");
+    history.push('/edit');
+  };
+
+  const handleEditClick = (id) => {
+    history.push(`/edit/${id}`);
+  };
+
+  const handleDeleteClick = (id) => {
+    alert('', '确定删除该记录？', [
+      { text: '取消' },
+      {
+        text: '确定',
+        onPress: () => {
+          deleteData('columns', id).then(() => {
+            const newColumns = columns.filter((column) => column.id !== id);
+            setColumns(newColumns);
+          });
+        },
+      },
+    ]);
   };
 
   const handleExportClick = () => {
     if (columns.length) {
-      const fullColumns = columns.concat(
-        new Array(4 - columns.length).fill({})
-      );
-      console.log(fullColumns);
-      genReport({ columns: fullColumns });
+      setAnimating(true);
+      const pages = handleRecords(columns, 4);
+      const data = {
+        projectName: project.name,
+        pages,
+      };
+      const reportName = `${project.name}-${template.name}`;
+      genReport(data, reportName).then(() => {
+        setAnimating(false);
+      });
     } else {
-      Toast.fail("没有要导出的记录！", 2);
+      Toast.fail('没有要导出的记录！', 2);
     }
   };
   return (
-    <Container navBar={project.name} header={template.name}>
+    <>
       <List>
         {columns.map((column) => (
-          <Item key={column.id} extra={column.date}>
-            {column.position}
-          </Item>
+          <SwipeAction
+            key={column.id}
+            autoClose
+            right={[
+              {
+                text: '删除',
+                onPress: () => handleDeleteClick(column.id),
+                style: { backgroundColor: '#F4333C', color: 'white' },
+              },
+            ]}
+          >
+            <Item
+              extra={column.date}
+              onClick={() => {
+                handleEditClick(column.id);
+              }}
+            >
+              {column.position}
+            </Item>
+          </SwipeAction>
         ))}
       </List>
       <WhiteSpace />
@@ -54,6 +106,7 @@ export default function Rlist({ history }) {
           </Button>
         </Flex.Item>
       </Flex>
-    </Container>
+      <ActivityIndicator toast text="导出中..." animating={animating} />
+    </>
   );
 }

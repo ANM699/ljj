@@ -1,5 +1,5 @@
-import React from "react";
-import { WingBlank, WhiteSpace, NavBar } from "antd-mobile";
+import React from 'react';
+import { WingBlank, WhiteSpace, NavBar } from 'antd-mobile';
 
 export default function Container({ children, navBar, header }) {
   return (
