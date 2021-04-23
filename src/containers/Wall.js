@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import { createForm } from 'rc-form';
+import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
+import { createForm } from "rc-form";
 import {
   Button,
   InputItem,
@@ -9,16 +9,16 @@ import {
   WhiteSpace,
   Flex,
   Toast,
-} from 'antd-mobile';
+} from "antd-mobile";
 
-import { insertData, selectDataByKey, updateData } from '../utils/indexDB';
-import { average } from '../utils/index';
+import { insertData, selectDataByKey, updateData } from "../utils/indexDB";
+import { average } from "../utils/index";
 
 const Item = List.Item;
 
 function Wall({ form, history, match }) {
-  const project = JSON.parse(sessionStorage.getItem('curProject'));
-  const template = JSON.parse(sessionStorage.getItem('curTemplate'));
+  const project = JSON.parse(sessionStorage.getItem("curProject"));
+  const template = JSON.parse(sessionStorage.getItem("curTemplate"));
 
   const [record, setRecord] = useState(null);
 
@@ -28,7 +28,7 @@ function Wall({ form, history, match }) {
       //编辑
       const id = params.id;
       //查询记录
-      selectDataByKey('walls', parseInt(id)).then((res) => {
+      selectDataByKey("walls", parseInt(id)).then((res) => {
         setRecord(res);
       });
     }
@@ -40,7 +40,7 @@ function Wall({ form, history, match }) {
     form.validateFields({ force: true }, (error) => {
       if (!error) {
         const formData = form.getFieldsValue();
-        formData.date = format(formData.date, 'yyyy-MM-dd');
+        formData.date = format(formData.date, "yyyy-MM-dd");
         formData.projectId = project.id;
         formData.templateId = template.id;
 
@@ -53,19 +53,19 @@ function Wall({ form, history, match }) {
 
         if (record) {
           //编辑
-          updateData('walls', { id: record.id, ...formData }).then(() => {
+          updateData("walls", { id: record.id, ...formData }).then(() => {
             // history.replace('/record');
             history.goBack();
           });
         } else {
           //新增
-          insertData('walls', formData).then(() => {
+          insertData("walls", formData).then(() => {
             // history.replace('/record');
             history.goBack();
           });
         }
       } else {
-        Toast.fail('检测部位未填写！', 2);
+        Toast.fail("检测部位未填写！", 2);
       }
     });
   };
@@ -76,7 +76,7 @@ function Wall({ form, history, match }) {
         <DatePicker
           mode="date"
           title="选择日期"
-          {...getFieldProps('date', {
+          {...getFieldProps("date", {
             initialValue: record ? new Date(record.date) : new Date(),
           })}
         >
@@ -84,18 +84,18 @@ function Wall({ form, history, match }) {
         </DatePicker>
         <InputItem
           labelNumber={7}
-          {...getFieldProps('equip', {
-            initialValue: record ? record.equip : '',
+          {...getFieldProps("equip", {
+            initialValue: record ? record.equip : "",
           })}
         >
           检测设备及名称
         </InputItem>
         <InputItem
           extra="*"
-          error={!!getFieldError('position')}
-          {...getFieldProps('position', {
-            initialValue: record ? record.position : '',
-            rules: [{ required: true, message: '必填' }],
+          error={!!getFieldError("position")}
+          {...getFieldProps("position", {
+            initialValue: record ? record.position : "",
+            rules: [{ required: true, message: "必填" }],
           })}
         >
           检测部位
@@ -106,27 +106,27 @@ function Wall({ form, history, match }) {
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('space_bar_h_1', {
-              initialValue: record ? record.space_bar_h_1 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_h_1", {
+              initialValue: record ? record.space_bar_h_1 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('space_bar_h_2', {
-              initialValue: record ? record.space_bar_h_2 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_h_2", {
+              initialValue: record ? record.space_bar_h_2 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('space_bar_h_3', {
-              initialValue: record ? record.space_bar_h_3 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_h_3", {
+              initialValue: record ? record.space_bar_h_3 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -136,27 +136,27 @@ function Wall({ form, history, match }) {
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('space_bar_h_4', {
-              initialValue: record ? record.space_bar_h_4 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_h_4", {
+              initialValue: record ? record.space_bar_h_4 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('space_bar_h_5', {
-              initialValue: record ? record.space_bar_h_5 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_h_5", {
+              initialValue: record ? record.space_bar_h_5 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('space_bar_h_6', {
-              initialValue: record ? record.space_bar_h_6 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_h_6", {
+              initialValue: record ? record.space_bar_h_6 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -166,36 +166,36 @@ function Wall({ form, history, match }) {
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('thick_p_h_1', {
-              initialValue: record ? record.thick_p_h_1 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_h_1", {
+              initialValue: record ? record.thick_p_h_1 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('thick_p_h_2', {
-              initialValue: record ? record.thick_p_h_2 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_h_2", {
+              initialValue: record ? record.thick_p_h_2 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('thick_p_h_3', {
-              initialValue: record ? record.thick_p_h_3 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_h_3", {
+              initialValue: record ? record.thick_p_h_3 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('thick_p_h_4', {
-              initialValue: record ? record.thick_p_h_4 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_h_4", {
+              initialValue: record ? record.thick_p_h_4 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -205,27 +205,27 @@ function Wall({ form, history, match }) {
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('thick_p_h_5', {
-              initialValue: record ? record.thick_p_h_5 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_h_5", {
+              initialValue: record ? record.thick_p_h_5 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('thick_p_h_6', {
-              initialValue: record ? record.thick_p_h_6 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_h_6", {
+              initialValue: record ? record.thick_p_h_6 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="水平"
-            {...getFieldProps('thick_p_h_7', {
-              initialValue: record ? record.thick_p_h_7 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_h_7", {
+              initialValue: record ? record.thick_p_h_7 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -236,27 +236,27 @@ function Wall({ form, history, match }) {
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('space_bar_v_1', {
-              initialValue: record ? record.space_bar_v_1 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_v_1", {
+              initialValue: record ? record.space_bar_v_1 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('space_bar_v_2', {
-              initialValue: record ? record.space_bar_v_2 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_v_2", {
+              initialValue: record ? record.space_bar_v_2 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('space_bar_v_3', {
-              initialValue: record ? record.space_bar_v_3 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_v_3", {
+              initialValue: record ? record.space_bar_v_3 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -266,27 +266,27 @@ function Wall({ form, history, match }) {
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('space_bar_v_4', {
-              initialValue: record ? record.space_bar_v_4 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_v_4", {
+              initialValue: record ? record.space_bar_v_4 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('space_bar_v_5', {
-              initialValue: record ? record.space_bar_v_5 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_v_5", {
+              initialValue: record ? record.space_bar_v_5 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('space_bar_v_6', {
-              initialValue: record ? record.space_bar_v_6 : '',
+            placeholder="实测值"
+            {...getFieldProps("space_bar_v_6", {
+              initialValue: record ? record.space_bar_v_6 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -296,36 +296,36 @@ function Wall({ form, history, match }) {
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('thick_p_v_1', {
-              initialValue: record ? record.thick_p_v_1 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_v_1", {
+              initialValue: record ? record.thick_p_v_1 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('thick_p_v_2', {
-              initialValue: record ? record.thick_p_v_2 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_v_2", {
+              initialValue: record ? record.thick_p_v_2 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('thick_p_v_3', {
-              initialValue: record ? record.thick_p_v_3 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_v_3", {
+              initialValue: record ? record.thick_p_v_3 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('thick_p_v_4', {
-              initialValue: record ? record.thick_p_v_4 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_v_4", {
+              initialValue: record ? record.thick_p_v_4 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -335,27 +335,27 @@ function Wall({ form, history, match }) {
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('thick_p_v_5', {
-              initialValue: record ? record.thick_p_v_5 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_v_5", {
+              initialValue: record ? record.thick_p_v_5 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('thick_p_v_6', {
-              initialValue: record ? record.thick_p_v_6 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_v_6", {
+              initialValue: record ? record.thick_p_v_6 : "",
             })}
           ></InputItem>
         </Flex.Item>
         <Flex.Item>
           <InputItem
             type="number"
-            placeholder="竖向"
-            {...getFieldProps('thick_p_v_7', {
-              initialValue: record ? record.thick_p_v_7 : '',
+            placeholder="实测值"
+            {...getFieldProps("thick_p_v_7", {
+              initialValue: record ? record.thick_p_v_7 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -367,8 +367,8 @@ function Wall({ form, history, match }) {
           <InputItem
             type="number"
             placeholder="实测值"
-            {...getFieldProps('thick_w_1', {
-              initialValue: record ? record.thick_w_1 : '',
+            {...getFieldProps("thick_w_1", {
+              initialValue: record ? record.thick_w_1 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -376,8 +376,8 @@ function Wall({ form, history, match }) {
           <InputItem
             type="number"
             placeholder="实测值"
-            {...getFieldProps('thick_w_2', {
-              initialValue: record ? record.thick_w_2 : '',
+            {...getFieldProps("thick_w_2", {
+              initialValue: record ? record.thick_w_2 : "",
             })}
           ></InputItem>
         </Flex.Item>
@@ -385,8 +385,8 @@ function Wall({ form, history, match }) {
           <InputItem
             type="number"
             placeholder="实测值"
-            {...getFieldProps('thick_w_3', {
-              initialValue: record ? record.thick_w_3 : '',
+            {...getFieldProps("thick_w_3", {
+              initialValue: record ? record.thick_w_3 : "",
             })}
           ></InputItem>
         </Flex.Item>

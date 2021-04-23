@@ -47,7 +47,6 @@ function TemplateList({ project, history }) {
       <List>
         {templates.map((template) => (
           <Item
-            arrow="horizontal"
             disabled={!template.enable}
             key={template.id}
             extra={template.enable ? "" : "不可用"}
