@@ -47,13 +47,6 @@ function Floor({ form, history, match }) {
         formData.projectId = project.id;
         formData.templateId = template.id;
 
-        //计算平均值
-        const thick_w = [];
-        if (formData.thick_w_1) thick_w.push(formData.thick_w_1);
-        if (formData.thick_w_2) thick_w.push(formData.thick_w_2);
-        if (formData.thick_w_3) thick_w.push(formData.thick_w_3);
-        formData.thick_w_a = average(thick_w);
-
         if (record) {
           //编辑
           updateData('floors', { id: record.id, ...formData }).then(() => {

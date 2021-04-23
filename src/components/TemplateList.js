@@ -9,24 +9,28 @@ const templates = [
     name: '钢筋混凝土柱检测记录',
     store: 'columns',
     enable: true,
+    row: 4,
   },
   {
     id: 2,
     name: '钢筋混凝土梁检测记录',
     store: 'beams',
     enable: true,
+    row: 4,
   },
   {
     id: 3,
     name: '墙钢筋及厚度检测记录',
     store: 'walls',
     enable: true,
+    row: 4,
   },
   {
     id: 4,
     name: '板钢筋及厚度检测记录',
     store: 'floors',
     enable: true,
+    row: 5, //每页导出记录个数
   },
 ];
 

@@ -18,7 +18,9 @@ const alert = Modal.alert;
 
 export default function Records({ history }) {
   const project = JSON.parse(sessionStorage.getItem('curProject'));
-  const { store, name } = JSON.parse(sessionStorage.getItem('curTemplate'));
+  const { store, name, row } = JSON.parse(
+    sessionStorage.getItem('curTemplate')
+  );
   const [records, setRecords] = useState([]);
   const [animating, setAnimating] = useState(false);
   const groupRecords = groupBy(records, 'date');
@@ -56,7 +58,7 @@ export default function Records({ history }) {
     if (records.length) {
       setAnimating(true);
       const projectName = project.name;
-      const pages = paging(groupRecords, 4);
+      const pages = paging(groupRecords, row);
       const data = {
         projectName,
         pages,
