@@ -85,12 +85,18 @@ function Floor({ form, history, match }) {
         </DatePicker>
         <InputItem
           labelNumber={7}
-          error={!!getFieldError('equip')}
           {...getFieldProps('equip', {
             initialValue: record ? record.equip : '',
           })}
         >
           检测设备及名称
+        </InputItem>
+        <InputItem
+          {...getFieldProps('floor', {
+            initialValue: record ? record.floor : '',
+          })}
+        >
+          层
         </InputItem>
         <InputItem
           extra="*"
@@ -261,6 +267,7 @@ function Floor({ form, history, match }) {
                 })}
               ></InputItem>
             </Flex.Item>
+            <Flex.Item />
           </Flex>
           <div className="sub-title">平行轴</div>
           <Flex>
@@ -416,6 +423,7 @@ function Floor({ form, history, match }) {
                 })}
               ></InputItem>
             </Flex.Item>
+            <Flex.Item />
           </Flex>
           <div className="sub-title">板厚检测值（mm）</div>
           <Flex>
@@ -428,6 +436,7 @@ function Floor({ form, history, match }) {
                 })}
               ></InputItem>
             </Flex.Item>
+            <Flex.Item />
           </Flex>
         </div>
         {/* tab1 */}
@@ -575,9 +584,9 @@ function Floor({ form, history, match }) {
             </Flex.Item>
             <Flex.Item></Flex.Item>
           </Flex>
-          <div className="sub-title">扣除（mm）</div>
           <Flex>
             <Flex.Item>
+              <div className="sub-title">扣除（mm）</div>
               <InputItem
                 type="number"
                 placeholder="扣除"
@@ -586,10 +595,8 @@ function Floor({ form, history, match }) {
                 })}
               ></InputItem>
             </Flex.Item>
-          </Flex>
-          <div className="sub-title">板厚检测值（mm）</div>
-          <Flex>
             <Flex.Item>
+              <div className="sub-title">板厚检测值（mm）</div>
               <InputItem
                 type="number"
                 placeholder="实测值"
@@ -603,6 +610,7 @@ function Floor({ form, history, match }) {
           <Flex>
             <Flex.Item>
               <InputItem
+                placeholder="轴"
                 {...getFieldProps('support_2', {
                   initialValue: record ? record.support_2 : '',
                 })}
@@ -741,9 +749,10 @@ function Floor({ form, history, match }) {
             </Flex.Item>
             <Flex.Item></Flex.Item>
           </Flex>
-          <div className="sub-title">扣除（mm）</div>
+
           <Flex>
             <Flex.Item>
+              <div className="sub-title">扣除（mm）</div>
               <InputItem
                 type="number"
                 placeholder="扣除"
@@ -752,10 +761,9 @@ function Floor({ form, history, match }) {
                 })}
               ></InputItem>
             </Flex.Item>
-          </Flex>
-          <div className="sub-title">板厚检测值（mm）</div>
-          <Flex>
+
             <Flex.Item>
+              <div className="sub-title">板厚检测值（mm）</div>
               <InputItem
                 type="number"
                 placeholder="实测值"

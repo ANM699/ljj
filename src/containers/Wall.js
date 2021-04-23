@@ -84,7 +84,6 @@ function Wall({ form, history, match }) {
         </DatePicker>
         <InputItem
           labelNumber={7}
-          error={!!getFieldError('equip')}
           {...getFieldProps('equip', {
             initialValue: record ? record.equip : '',
           })}

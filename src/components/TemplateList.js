@@ -26,7 +26,7 @@ const templates = [
     id: 4,
     name: '板钢筋及厚度检测记录',
     store: 'floors',
-    enable: false,
+    enable: true,
   },
 ];
 
