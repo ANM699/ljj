@@ -1,65 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { WhiteSpace, Modal, Button, Accordion } from "antd-mobile";
-import Container from "../components/Container";
-import TemplateList from "../components/TemplateList";
-import { insertData, selectAllData } from "../utils/indexDB";
-
-const prompt = Modal.prompt;
+import React from 'react';
+import { Redirect, Switch, Route } from 'react-router-dom';
+import Container from '../components/Container';
+import Column from './Column';
+import Wall from './Wall';
+import Beam from './Beam';
+import Floor from './Floor';
+import Records from './Records';
 
 export default function Main() {
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    selectAllData("projects").then((res) => {
-      setProjects(res);
-    });
-  }, []);
-
-  const handleButtonClick = () => {
-    prompt(
-      "项目名称",
-      null,
-      [
-        {
-          text: "取消",
-        },
-        {
-          text: "确定",
-          onPress: (value) => {
-            if (value) {
-              return insertData("projects", { name: value }).then((id) => {
-                const newProjects = [...projects, { id, name: value }];
-                setProjects(newProjects);
-              });
-            } else {
-              return Promise.reject();
-            }
-          },
-        },
-      ],
-      "default",
-      null,
-      ["请输入项目名称"]
-    );
-  };
-
+  const project = JSON.parse(sessionStorage.getItem('curProject'));
+  const template = JSON.parse(sessionStorage.getItem('curTemplate'));
+  if (!(project && template)) {
+    return <Redirect to="/" />;
+  }
   return (
-    <Container navBar="项目列表">
-      <Accordion accordion openAnimation={{}}>
-        {projects.map((project) => (
-          <Accordion.Panel
-            // style={{ marginBottom: 15 }}
-            key={project.id}
-            header={project.name}
-          >
-            <TemplateList project={project} />
-          </Accordion.Panel>
-        ))}
-      </Accordion>
-      <WhiteSpace />
-      <Button type="primary" onClick={handleButtonClick}>
-        创建新项目
-      </Button>
+    <Container navBar={project.name} header={template.name}>
+      <Switch>
+        <Route path="/records" component={Records} />
+        <Route path="/columns" exact={true} component={Column} />
+        <Route path="/columns/:id" component={Column} />
+        <Route path="/walls" exact={true} component={Wall} />
+        <Route path="/walls/:id" component={Wall} />
+        <Route path="/beams" exact={true} component={Beam} />
+        <Route path="/beams/:id" component={Beam} />
+        <Route path="/floors" exact={true} component={Floor} />
+        <Route path="/floors/:id" component={Floor} />
+      </Switch>
     </Container>
   );
 }

@@ -1,75 +1,54 @@
-import createReport from "docx-templates";
-import JSZipUtils from "jszip-utils";
+//计算数组平均值并保留一位小数
+export const average = (arr) => {
+  const reducer = (accumulator, currentValue) =>
+    parseInt(accumulator) + parseInt(currentValue);
+  return arr.length ? (arr.reduce(reducer) / arr.length).toFixed(1) : '';
+};
 
-export async function genReport(data) {
-  //上传模版
-  // const template = await readFileIntoArrayBuffer(file);
-  // const report = await createReport({
-  //   template,
-  //   data: {
-  //     name: "John",
-  //     surname: "Appleseed",
-  //   },
-  //   cmdDelimiter: ["{", "}"],
-  // });
-  // saveDataToFile(
-  //   report,
-  //   "report.docx",
-  //   "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  // );
-  console.log(data);
-  JSZipUtils.getBinaryContent(
-    "./templates/F-05.docx",
-    // "./templates/template.docx",
-    // "./templates/myTemplate.docx",
-    async (error, template) => {
-      if (error) throw error;
-      const report = await createReport({
-        template,
-        // data: {
-        //   columns: [{}, {}],
-        // },
-        data,
-        cmdDelimiter: ["{", "}"],
-      });
-      // Save report
-      saveDataToFile(
-        report,
-        "report.docx",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      );
+//用指定的值将数字补齐到指定的长度
+const fillArr = (arr, len, value) => {
+  if (arr.length > len) return arr;
+  return arr.concat(new Array(len - arr.length).fill(value));
+};
+
+//将数组按照指定长度分组并补齐到指定长度，然后转换成对象加上日期,设备属性
+const chunk = (arr, len, key) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += len) {
+    result.push({
+      records: fillArr(arr.slice(i, i + len), len, {}),
+      date: key,
+      equip: arr[i].equip,
+    });
+  }
+  return result;
+};
+
+//按属性对object分类
+export const groupBy = (objectArray, property) => {
+  return objectArray.reduce(function (acc, obj) {
+    var key = obj[property];
+    if (!acc[key]) {
+      acc[key] = [];
     }
-  );
-}
-
-// ==============================================
-// Helpers
-// ==============================================
-const readFileIntoArrayBuffer = async (fd) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsArrayBuffer(fd);
-  });
-
-const saveDataToFile = (data, fileName, mimeType) => {
-  const blob = new Blob([data], { type: mimeType });
-  const url = window.URL.createObjectURL(blob);
-  downloadURL(url, fileName, mimeType);
-  setTimeout(() => {
-    window.URL.revokeObjectURL(url);
-  }, 1000);
+    acc[key].push(obj);
+    return acc;
+  }, {});
 };
 
-const downloadURL = (data, fileName) => {
-  const a = document.createElement("a");
-  a.href = data;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.style = "display: none";
-  a.click();
-  a.remove();
+//分页
+export const paging = (object, len) => {
+  let result = [];
+  for (const key in object) {
+    result = result.concat(chunk(object[key], len, key));
+  }
+  return result;
 };
+
+// //将记录数据处理成导出格式
+// export const handleRecords = (list, len) => {
+//   //先按日期分组
+//   const temp = groupBy(list, 'date');
+//   //按模板每页的记录条数分页
+//   return paging(temp, len);
+// };
