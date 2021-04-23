@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import { createForm } from 'rc-form';
+import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
+import { createForm } from "rc-form";
 import {
   Button,
   InputItem,
@@ -10,18 +10,17 @@ import {
   Flex,
   Toast,
   Tabs,
-} from 'antd-mobile';
+} from "antd-mobile";
 
-import { insertData, selectDataByKey, updateData } from '../utils/indexDB';
-import { average } from '../utils/index';
+import { insertData, selectDataByKey, updateData } from "../utils/indexDB";
 
 const Item = List.Item;
 
-const tabs = [{ title: '板底' }, { title: '板面' }];
+const tabs = [{ title: "板底" }, { title: "板面" }];
 
 function Floor({ form, history, match }) {
-  const project = JSON.parse(sessionStorage.getItem('curProject'));
-  const template = JSON.parse(sessionStorage.getItem('curTemplate'));
+  const project = JSON.parse(sessionStorage.getItem("curProject"));
+  const template = JSON.parse(sessionStorage.getItem("curTemplate"));
 
   const [record, setRecord] = useState(null);
 
@@ -31,7 +30,7 @@ function Floor({ form, history, match }) {
       //编辑
       const id = params.id;
       //查询记录
-      selectDataByKey('floors', parseInt(id)).then((res) => {
+      selectDataByKey("floors", parseInt(id)).then((res) => {
         setRecord(res);
       });
     }
@@ -43,23 +42,23 @@ function Floor({ form, history, match }) {
     form.validateFields({ force: true }, (error) => {
       if (!error) {
         const formData = form.getFieldsValue();
-        formData.date = format(formData.date, 'yyyy-MM-dd');
+        formData.date = format(formData.date, "yyyy-MM-dd");
         formData.projectId = project.id;
         formData.templateId = template.id;
 
         if (record) {
           //编辑
-          updateData('floors', { id: record.id, ...formData }).then(() => {
+          updateData("floors", { id: record.id, ...formData }).then(() => {
             history.goBack();
           });
         } else {
           //新增
-          insertData('floors', formData).then(() => {
+          insertData("floors", formData).then(() => {
             history.goBack();
           });
         }
       } else {
-        Toast.fail('检测部位未填写！', 2);
+        Toast.fail("检测部位未填写！", 2);
       }
     });
   };
@@ -70,7 +69,7 @@ function Floor({ form, history, match }) {
         <DatePicker
           mode="date"
           title="选择日期"
-          {...getFieldProps('date', {
+          {...getFieldProps("date", {
             initialValue: record ? new Date(record.date) : new Date(),
           })}
         >
@@ -78,25 +77,25 @@ function Floor({ form, history, match }) {
         </DatePicker>
         <InputItem
           labelNumber={7}
-          {...getFieldProps('equip', {
-            initialValue: record ? record.equip : '',
+          {...getFieldProps("equip", {
+            initialValue: record ? record.equip : "",
           })}
         >
           检测设备及名称
         </InputItem>
         <InputItem
-          {...getFieldProps('floor', {
-            initialValue: record ? record.floor : '',
+          {...getFieldProps("floor", {
+            initialValue: record ? record.floor : "",
           })}
         >
           层
         </InputItem>
         <InputItem
           extra="*"
-          error={!!getFieldError('position')}
-          {...getFieldProps('position', {
-            initialValue: record ? record.position : '',
-            rules: [{ required: true, message: '必填' }],
+          error={!!getFieldError("position")}
+          {...getFieldProps("position", {
+            initialValue: record ? record.position : "",
+            rules: [{ required: true, message: "必填" }],
           })}
         >
           检测部位
@@ -111,8 +110,8 @@ function Floor({ form, history, match }) {
             <Flex.Item>
               <InputItem
                 placeholder="轴"
-                {...getFieldProps('parallel_1', {
-                  initialValue: record ? record.parallel_1 : '',
+                {...getFieldProps("parallel_1", {
+                  initialValue: record ? record.parallel_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -125,8 +124,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_1_1', {
-                  initialValue: record ? record.space_bar_1_1 : '',
+                {...getFieldProps("space_bar_1_1", {
+                  initialValue: record ? record.space_bar_1_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -134,8 +133,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_1_2', {
-                  initialValue: record ? record.space_bar_1_2 : '',
+                {...getFieldProps("space_bar_1_2", {
+                  initialValue: record ? record.space_bar_1_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -143,8 +142,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_1_3', {
-                  initialValue: record ? record.space_bar_1_3 : '',
+                {...getFieldProps("space_bar_1_3", {
+                  initialValue: record ? record.space_bar_1_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -155,8 +154,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_1_4', {
-                  initialValue: record ? record.space_bar_1_4 : '',
+                {...getFieldProps("space_bar_1_4", {
+                  initialValue: record ? record.space_bar_1_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -164,8 +163,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_1_5', {
-                  initialValue: record ? record.space_bar_1_5 : '',
+                {...getFieldProps("space_bar_1_5", {
+                  initialValue: record ? record.space_bar_1_5 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -173,8 +172,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_1_6', {
-                  initialValue: record ? record.space_bar_1_6 : '',
+                {...getFieldProps("space_bar_1_6", {
+                  initialValue: record ? record.space_bar_1_6 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -185,8 +184,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_1_1', {
-                  initialValue: record ? record.thick_p_1_1 : '',
+                {...getFieldProps("thick_p_1_1", {
+                  initialValue: record ? record.thick_p_1_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -194,8 +193,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_1_2', {
-                  initialValue: record ? record.thick_p_1_2 : '',
+                {...getFieldProps("thick_p_1_2", {
+                  initialValue: record ? record.thick_p_1_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -203,8 +202,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_1_3', {
-                  initialValue: record ? record.thick_p_1_3 : '',
+                {...getFieldProps("thick_p_1_3", {
+                  initialValue: record ? record.thick_p_1_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -212,8 +211,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_1_4', {
-                  initialValue: record ? record.thick_p_1_4 : '',
+                {...getFieldProps("thick_p_1_4", {
+                  initialValue: record ? record.thick_p_1_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -224,8 +223,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_1_5', {
-                  initialValue: record ? record.thick_p_1_5 : '',
+                {...getFieldProps("thick_p_1_5", {
+                  initialValue: record ? record.thick_p_1_5 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -233,8 +232,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_1_6', {
-                  initialValue: record ? record.thick_p_1_6 : '',
+                {...getFieldProps("thick_p_1_6", {
+                  initialValue: record ? record.thick_p_1_6 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -242,8 +241,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_1_7', {
-                  initialValue: record ? record.thick_p_1_7 : '',
+                {...getFieldProps("thick_p_1_7", {
+                  initialValue: record ? record.thick_p_1_7 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -255,8 +254,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="扣除"
-                {...getFieldProps('deduct_1', {
-                  initialValue: record ? record.deduct_1 : '',
+                {...getFieldProps("deduct_1", {
+                  initialValue: record ? record.deduct_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -267,8 +266,8 @@ function Floor({ form, history, match }) {
             <Flex.Item>
               <InputItem
                 placeholder="轴"
-                {...getFieldProps('parallel_2', {
-                  initialValue: record ? record.parallel_2 : '',
+                {...getFieldProps("parallel_2", {
+                  initialValue: record ? record.parallel_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -281,8 +280,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_1', {
-                  initialValue: record ? record.space_bar_2_1 : '',
+                {...getFieldProps("space_bar_2_1", {
+                  initialValue: record ? record.space_bar_2_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -290,8 +289,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_2', {
-                  initialValue: record ? record.space_bar_2_2 : '',
+                {...getFieldProps("space_bar_2_2", {
+                  initialValue: record ? record.space_bar_2_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -299,8 +298,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_3', {
-                  initialValue: record ? record.space_bar_2_3 : '',
+                {...getFieldProps("space_bar_2_3", {
+                  initialValue: record ? record.space_bar_2_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -311,8 +310,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_4', {
-                  initialValue: record ? record.space_bar_2_4 : '',
+                {...getFieldProps("space_bar_2_4", {
+                  initialValue: record ? record.space_bar_2_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -320,8 +319,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_5', {
-                  initialValue: record ? record.space_bar_2_5 : '',
+                {...getFieldProps("space_bar_2_5", {
+                  initialValue: record ? record.space_bar_2_5 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -329,8 +328,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_6', {
-                  initialValue: record ? record.space_bar_2_6 : '',
+                {...getFieldProps("space_bar_2_6", {
+                  initialValue: record ? record.space_bar_2_6 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -341,8 +340,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_1', {
-                  initialValue: record ? record.thick_p_2_1 : '',
+                {...getFieldProps("thick_p_2_1", {
+                  initialValue: record ? record.thick_p_2_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -350,8 +349,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_2', {
-                  initialValue: record ? record.thick_p_2_2 : '',
+                {...getFieldProps("thick_p_2_2", {
+                  initialValue: record ? record.thick_p_2_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -359,8 +358,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_3', {
-                  initialValue: record ? record.thick_p_2_3 : '',
+                {...getFieldProps("thick_p_2_3", {
+                  initialValue: record ? record.thick_p_2_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -368,8 +367,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_4', {
-                  initialValue: record ? record.thick_p_2_4 : '',
+                {...getFieldProps("thick_p_2_4", {
+                  initialValue: record ? record.thick_p_2_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -380,8 +379,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_5', {
-                  initialValue: record ? record.thick_p_2_5 : '',
+                {...getFieldProps("thick_p_2_5", {
+                  initialValue: record ? record.thick_p_2_5 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -389,8 +388,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_6', {
-                  initialValue: record ? record.thick_p_2_6 : '',
+                {...getFieldProps("thick_p_2_6", {
+                  initialValue: record ? record.thick_p_2_6 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -398,8 +397,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_7', {
-                  initialValue: record ? record.thick_p_2_7 : '',
+                {...getFieldProps("thick_p_2_7", {
+                  initialValue: record ? record.thick_p_2_7 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -411,8 +410,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="扣除"
-                {...getFieldProps('deduct_2', {
-                  initialValue: record ? record.deduct_1 : '',
+                {...getFieldProps("deduct_2", {
+                  initialValue: record ? record.deduct_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -424,8 +423,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_f_1', {
-                  initialValue: record ? record.thick_f_1 : '',
+                {...getFieldProps("thick_f_1", {
+                  initialValue: record ? record.thick_f_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -439,8 +438,8 @@ function Floor({ form, history, match }) {
             <Flex.Item>
               <InputItem
                 placeholder="轴"
-                {...getFieldProps('support_1', {
-                  initialValue: record ? record.support_1 : '',
+                {...getFieldProps("support_1", {
+                  initialValue: record ? record.support_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -453,8 +452,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_3_1', {
-                  initialValue: record ? record.space_bar_3_1 : '',
+                {...getFieldProps("space_bar_3_1", {
+                  initialValue: record ? record.space_bar_3_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -462,8 +461,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_3_2', {
-                  initialValue: record ? record.space_bar_3_2 : '',
+                {...getFieldProps("space_bar_3_2", {
+                  initialValue: record ? record.space_bar_3_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -471,8 +470,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_3_3', {
-                  initialValue: record ? record.space_bar_3_3 : '',
+                {...getFieldProps("space_bar_3_3", {
+                  initialValue: record ? record.space_bar_3_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -483,8 +482,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_3_4', {
-                  initialValue: record ? record.space_bar_3_4 : '',
+                {...getFieldProps("space_bar_3_4", {
+                  initialValue: record ? record.space_bar_3_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -492,8 +491,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_3_5', {
-                  initialValue: record ? record.space_bar_3_5 : '',
+                {...getFieldProps("space_bar_3_5", {
+                  initialValue: record ? record.space_bar_3_5 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -501,8 +500,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_3_6', {
-                  initialValue: record ? record.space_bar_3_6 : '',
+                {...getFieldProps("space_bar_3_6", {
+                  initialValue: record ? record.space_bar_3_6 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -513,8 +512,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_3_1', {
-                  initialValue: record ? record.thick_p_3_1 : '',
+                {...getFieldProps("thick_p_3_1", {
+                  initialValue: record ? record.thick_p_3_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -522,8 +521,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_3_2', {
-                  initialValue: record ? record.thick_p_3_2 : '',
+                {...getFieldProps("thick_p_3_2", {
+                  initialValue: record ? record.thick_p_3_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -531,8 +530,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_3_3', {
-                  initialValue: record ? record.thick_p_3_3 : '',
+                {...getFieldProps("thick_p_3_3", {
+                  initialValue: record ? record.thick_p_3_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -540,8 +539,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_3_4', {
-                  initialValue: record ? record.thick_p_3_4 : '',
+                {...getFieldProps("thick_p_3_4", {
+                  initialValue: record ? record.thick_p_3_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -552,8 +551,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_3_5', {
-                  initialValue: record ? record.thick_p_3_5 : '',
+                {...getFieldProps("thick_p_3_5", {
+                  initialValue: record ? record.thick_p_3_5 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -561,8 +560,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_3_6', {
-                  initialValue: record ? record.thick_p_3_6 : '',
+                {...getFieldProps("thick_p_3_6", {
+                  initialValue: record ? record.thick_p_3_6 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -570,8 +569,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_3_7', {
-                  initialValue: record ? record.thick_p_3_7 : '',
+                {...getFieldProps("thick_p_3_7", {
+                  initialValue: record ? record.thick_p_3_7 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -583,8 +582,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="扣除"
-                {...getFieldProps('deduct_1', {
-                  initialValue: record ? record.deduct_1 : '',
+                {...getFieldProps("deduct_3", {
+                  initialValue: record ? record.deduct_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -593,8 +592,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_f_2', {
-                  initialValue: record ? record.thick_f_2 : '',
+                {...getFieldProps("thick_f_2", {
+                  initialValue: record ? record.thick_f_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -604,8 +603,8 @@ function Floor({ form, history, match }) {
             <Flex.Item>
               <InputItem
                 placeholder="轴"
-                {...getFieldProps('support_2', {
-                  initialValue: record ? record.support_2 : '',
+                {...getFieldProps("support_2", {
+                  initialValue: record ? record.support_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -618,8 +617,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_1', {
-                  initialValue: record ? record.space_bar_2_1 : '',
+                {...getFieldProps("space_bar_4_1", {
+                  initialValue: record ? record.space_bar_4_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -627,8 +626,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_2', {
-                  initialValue: record ? record.space_bar_2_2 : '',
+                {...getFieldProps("space_bar_4_2", {
+                  initialValue: record ? record.space_bar_4_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -636,8 +635,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_3', {
-                  initialValue: record ? record.space_bar_2_3 : '',
+                {...getFieldProps("space_bar_4_3", {
+                  initialValue: record ? record.space_bar_4_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -648,8 +647,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_4', {
-                  initialValue: record ? record.space_bar_2_4 : '',
+                {...getFieldProps("space_bar_4_4", {
+                  initialValue: record ? record.space_bar_4_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -657,8 +656,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_5', {
-                  initialValue: record ? record.space_bar_2_5 : '',
+                {...getFieldProps("space_bar_4_5", {
+                  initialValue: record ? record.space_bar_4_5 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -666,8 +665,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('space_bar_2_6', {
-                  initialValue: record ? record.space_bar_2_6 : '',
+                {...getFieldProps("space_bar_4_6", {
+                  initialValue: record ? record.space_bar_4_6 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -678,8 +677,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_1', {
-                  initialValue: record ? record.thick_p_2_1 : '',
+                {...getFieldProps("thick_p_4_1", {
+                  initialValue: record ? record.thick_p_4_1 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -687,8 +686,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_2', {
-                  initialValue: record ? record.thick_p_2_2 : '',
+                {...getFieldProps("thick_p_4_2", {
+                  initialValue: record ? record.thick_p_4_2 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -696,8 +695,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_3', {
-                  initialValue: record ? record.thick_p_2_3 : '',
+                {...getFieldProps("thick_p_4_3", {
+                  initialValue: record ? record.thick_p_4_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -705,8 +704,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_4', {
-                  initialValue: record ? record.thick_p_2_4 : '',
+                {...getFieldProps("thick_p_4_4", {
+                  initialValue: record ? record.thick_p_4_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -717,8 +716,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_5', {
-                  initialValue: record ? record.thick_p_2_5 : '',
+                {...getFieldProps("thick_p_4_5", {
+                  initialValue: record ? record.thick_p_4_5 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -726,8 +725,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_6', {
-                  initialValue: record ? record.thick_p_2_6 : '',
+                {...getFieldProps("thick_p_4_6", {
+                  initialValue: record ? record.thick_p_4_6 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -735,8 +734,8 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_p_2_7', {
-                  initialValue: record ? record.thick_p_2_7 : '',
+                {...getFieldProps("thick_p_4_7", {
+                  initialValue: record ? record.thick_p_4_7 : "",
                 })}
               ></InputItem>
             </Flex.Item>
@@ -749,19 +748,18 @@ function Floor({ form, history, match }) {
               <InputItem
                 type="number"
                 placeholder="扣除"
-                {...getFieldProps('deduct_2', {
-                  initialValue: record ? record.deduct_1 : '',
+                {...getFieldProps("deduct_4", {
+                  initialValue: record ? record.deduct_4 : "",
                 })}
               ></InputItem>
             </Flex.Item>
-
             <Flex.Item>
               <div className="sub-title">板厚检测值（mm）</div>
               <InputItem
                 type="number"
                 placeholder="实测值"
-                {...getFieldProps('thick_f_3', {
-                  initialValue: record ? record.thick_f_3 : '',
+                {...getFieldProps("thick_f_3", {
+                  initialValue: record ? record.thick_f_3 : "",
                 })}
               ></InputItem>
             </Flex.Item>
