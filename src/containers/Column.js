@@ -11,12 +11,12 @@ import {
   Toast,
 } from 'antd-mobile';
 
-import { insertData, selectDataByKey, updateData } from '../../utils/indexDB';
-import { average } from '../../utils/index';
+import { insertData, selectDataByKey, updateData } from '../utils/indexDB';
+import { average } from '../utils/index';
 
 const Item = List.Item;
 
-function Edit({ form, history, match }) {
+function Column({ form, history, match }) {
   const project = JSON.parse(sessionStorage.getItem('curProject'));
   const template = JSON.parse(sessionStorage.getItem('curTemplate'));
 
@@ -79,7 +79,7 @@ function Edit({ form, history, match }) {
           });
         }
       } else {
-        Toast.fail('必填项未填写！', 2);
+        Toast.fail('柱位置未填写！', 2);
       }
     });
   };
@@ -101,12 +101,12 @@ function Edit({ form, history, match }) {
           error={!!getFieldError('equip')}
           {...getFieldProps('equip', {
             initialValue: record ? record.equip : '',
-            rules: [{ required: true, message: '必填' }],
           })}
         >
           检测设备及名称
         </InputItem>
         <InputItem
+          extra="*"
           error={!!getFieldError('position')}
           {...getFieldProps('position', {
             initialValue: record ? record.position : '',
@@ -215,7 +215,7 @@ function Edit({ form, history, match }) {
           ></InputItem>
         </Flex.Item>
       </Flex>
-      <div className="sub-title">非加密区实测箍筋间距（mm）</div>
+      <div className="sub-title">非加密区箍筋间距（mm）</div>
       <Flex>
         <Flex.Item>
           <InputItem
@@ -308,4 +308,4 @@ function Edit({ form, history, match }) {
   );
 }
 
-export default createForm()(Edit);
+export default createForm()(Column);

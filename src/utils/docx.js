@@ -1,7 +1,7 @@
 import createReport from 'docx-templates';
 import JSZipUtils from 'jszip-utils';
 
-export async function genReport(data, reportName) {
+export async function genReport(data, reportName, store) {
   //上传模版
   // const template = await readFileIntoArrayBuffer(file);
   // const report = await createReport({
@@ -19,7 +19,7 @@ export async function genReport(data, reportName) {
   // );
   return new Promise((resolve, reject) => {
     JSZipUtils.getBinaryContent(
-      './templates/F-05.docx',
+      `./templates/${store}.docx`,
       // "./templates/template.docx",
       // "./templates/myTemplate.docx",
       async (error, template) => {

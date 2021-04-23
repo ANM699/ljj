@@ -2,7 +2,7 @@ let db = null;
 
 const initDB = async () =>
   await new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('ljjDB');
+    const request = window.indexedDB.open('ljjDB', 2);
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
       let objectStore = null;
@@ -16,6 +16,30 @@ const initDB = async () =>
       if (!db.objectStoreNames.contains('columns')) {
         //柱记录表
         objectStore = db.createObjectStore('columns', {
+          keyPath: 'id',
+          autoIncrement: true,
+        });
+        objectStore.createIndex('projectId', 'projectId', { unique: false });
+      }
+      if (!db.objectStoreNames.contains('beams')) {
+        //梁记录表
+        objectStore = db.createObjectStore('beams', {
+          keyPath: 'id',
+          autoIncrement: true,
+        });
+        objectStore.createIndex('projectId', 'projectId', { unique: false });
+      }
+      if (!db.objectStoreNames.contains('walls')) {
+        //墙记录表
+        objectStore = db.createObjectStore('walls', {
+          keyPath: 'id',
+          autoIncrement: true,
+        });
+        objectStore.createIndex('projectId', 'projectId', { unique: false });
+      }
+      if (!db.objectStoreNames.contains('floors')) {
+        //板记录表
+        objectStore = db.createObjectStore('floors', {
           keyPath: 'id',
           autoIncrement: true,
         });

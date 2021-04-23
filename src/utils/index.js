@@ -25,7 +25,7 @@ const chunk = (arr, len, key) => {
 };
 
 //按属性对object分类
-const groupBy = (objectArray, property) => {
+export const groupBy = (objectArray, property) => {
   return objectArray.reduce(function (acc, obj) {
     var key = obj[property];
     if (!acc[key]) {
@@ -37,7 +37,7 @@ const groupBy = (objectArray, property) => {
 };
 
 //分页
-const paging = (object, len) => {
+export const paging = (object, len) => {
   let result = [];
   for (const key in object) {
     result = result.concat(chunk(object[key], len, key));
@@ -45,10 +45,10 @@ const paging = (object, len) => {
   return result;
 };
 
-//将记录数据处理成导出格式
-export const handleRecords = (list, len) => {
-  //先按日期分组
-  const temp = groupBy(list, 'date');
-  //按模板每页的记录条数分页
-  return paging(temp, len);
-};
+// //将记录数据处理成导出格式
+// export const handleRecords = (list, len) => {
+//   //先按日期分组
+//   const temp = groupBy(list, 'date');
+//   //按模板每页的记录条数分页
+//   return paging(temp, len);
+// };
