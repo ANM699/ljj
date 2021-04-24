@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Home from './containers/Home';
-import Main from './containers/Main';
-import { HashRouter, Switch, Route } from 'react-router-dom';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import Home from "./containers/Home";
+import Main from "./containers/Main";
+import { HashRouter, Switch, Route } from "react-router-dom";
+import "./index.css";
 
 ReactDOM.render(
   <HashRouter>
@@ -12,5 +12,5 @@ ReactDOM.render(
       <Route component={Main} />
     </Switch>
   </HashRouter>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

@@ -5,7 +5,6 @@ import TemplateList from "../components/TemplateList";
 import { insertData, selectAllData, deleteDB } from "../utils/indexDB";
 
 const prompt = Modal.prompt;
-const alert = Modal.alert;
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
