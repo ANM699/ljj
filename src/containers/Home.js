@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { WhiteSpace, Modal, Button, Accordion } from "antd-mobile";
+import { WhiteSpace, Modal, Button, Accordion, Flex } from "antd-mobile";
 import Container from "../components/Container";
 import TemplateList from "../components/TemplateList";
-import { insertData, selectAllData } from "../utils/indexDB";
+import { insertData, selectAllData, deleteDB } from "../utils/indexDB";
 
 const prompt = Modal.prompt;
+const alert = Modal.alert;
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
@@ -17,7 +18,7 @@ export default function Home() {
 
   const handleButtonClick = () => {
     prompt(
-      "项目名称",
+      null,
       null,
       [
         {
@@ -43,6 +44,49 @@ export default function Home() {
     );
   };
 
+  const handleDelClick = () => {
+    // alert("", "确定删除所有数据？", [
+    //   { text: "取消" },
+    //   {
+    //     text: "确定",
+    //     onPress: () => {
+    //       deleteDB().then(() => {
+    //         selectAllData("projects").then((res) => {
+    //           setProjects(res);
+    //         });
+    //       });
+    //     },
+    //   },
+    // ]);
+    prompt(
+      null,
+      null,
+      [
+        {
+          text: "取消",
+        },
+        {
+          text: "确定",
+          onPress: (value) => {
+            if (value === "确定") {
+              return deleteDB().then(() => {
+                sessionStorage.clear();
+                selectAllData("projects").then((res) => {
+                  setProjects(res);
+                });
+              });
+            } else {
+              return Promise.reject();
+            }
+          },
+        },
+      ],
+      "default",
+      null,
+      ["输入“确定”确认删除"]
+    );
+  };
+
   return (
     <Container navBar="项目列表">
       <Accordion accordion>
@@ -53,9 +97,18 @@ export default function Home() {
         ))}
       </Accordion>
       <WhiteSpace />
-      <Button type="primary" onClick={handleButtonClick}>
-        创建新项目
-      </Button>
+      <Flex>
+        <Flex.Item>
+          <Button type="primary" onClick={handleButtonClick}>
+            创建新项目
+          </Button>
+        </Flex.Item>
+        <Flex.Item>
+          <Button type="warning" onClick={handleDelClick}>
+            删除所有数据
+          </Button>
+        </Flex.Item>
+      </Flex>
     </Container>
   );
 }

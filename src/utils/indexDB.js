@@ -2,48 +2,48 @@ let db = null;
 
 const initDB = async () =>
   await new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('ljjDB', 2);
+    const request = window.indexedDB.open("ljjDB", 2);
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
       let objectStore = null;
-      if (!db.objectStoreNames.contains('projects')) {
+      if (!db.objectStoreNames.contains("projects")) {
         //项目表
-        db.createObjectStore('projects', {
-          keyPath: 'id',
+        db.createObjectStore("projects", {
+          keyPath: "id",
           autoIncrement: true,
         });
       }
-      if (!db.objectStoreNames.contains('columns')) {
+      if (!db.objectStoreNames.contains("columns")) {
         //柱记录表
-        objectStore = db.createObjectStore('columns', {
-          keyPath: 'id',
+        objectStore = db.createObjectStore("columns", {
+          keyPath: "id",
           autoIncrement: true,
         });
-        objectStore.createIndex('projectId', 'projectId', { unique: false });
+        objectStore.createIndex("projectId", "projectId", { unique: false });
       }
-      if (!db.objectStoreNames.contains('beams')) {
+      if (!db.objectStoreNames.contains("beams")) {
         //梁记录表
-        objectStore = db.createObjectStore('beams', {
-          keyPath: 'id',
+        objectStore = db.createObjectStore("beams", {
+          keyPath: "id",
           autoIncrement: true,
         });
-        objectStore.createIndex('projectId', 'projectId', { unique: false });
+        objectStore.createIndex("projectId", "projectId", { unique: false });
       }
-      if (!db.objectStoreNames.contains('walls')) {
+      if (!db.objectStoreNames.contains("walls")) {
         //墙记录表
-        objectStore = db.createObjectStore('walls', {
-          keyPath: 'id',
+        objectStore = db.createObjectStore("walls", {
+          keyPath: "id",
           autoIncrement: true,
         });
-        objectStore.createIndex('projectId', 'projectId', { unique: false });
+        objectStore.createIndex("projectId", "projectId", { unique: false });
       }
-      if (!db.objectStoreNames.contains('floors')) {
+      if (!db.objectStoreNames.contains("floors")) {
         //板记录表
-        objectStore = db.createObjectStore('floors', {
-          keyPath: 'id',
+        objectStore = db.createObjectStore("floors", {
+          keyPath: "id",
           autoIncrement: true,
         });
-        objectStore.createIndex('projectId', 'projectId', { unique: false });
+        objectStore.createIndex("projectId", "projectId", { unique: false });
       }
     };
     request.onsuccess = function (event) {
@@ -52,7 +52,7 @@ const initDB = async () =>
     };
     request.onerror = function () {
       reject();
-      console.error('数据库初始化失败！');
+      console.error("数据库初始化失败！");
     };
   });
 
@@ -60,7 +60,7 @@ export const insertData = async (store, data) => {
   await initDB();
   return await new Promise((resolve, reject) => {
     const request = db
-      .transaction([store], 'readwrite')
+      .transaction([store], "readwrite")
       .objectStore(store)
       .add(data);
     request.onsuccess = function (event) {
@@ -82,7 +82,7 @@ export const selectAllData = async (store) => {
   return await new Promise((resolve, reject) => {
     const data = [];
     const request = db
-      .transaction(store, 'readonly')
+      .transaction(store, "readonly")
       .objectStore(store)
       .openCursor();
     request.onsuccess = function (event) {
@@ -110,7 +110,7 @@ export const selectDataByIndex = async (store, indexName, params) => {
     const data = [];
     const range = IDBKeyRange.only(params);
     const request = db
-      .transaction(store, 'readonly')
+      .transaction(store, "readonly")
       .objectStore(store)
       .index(indexName)
       .openCursor(range);
@@ -154,7 +154,7 @@ export const updateData = async (store, value) => {
   await initDB();
   return await new Promise((resolve, reject) => {
     const request = db
-      .transaction(store, 'readwrite')
+      .transaction(store, "readwrite")
       .objectStore(store)
       .put(value);
     request.onsuccess = function () {
@@ -173,7 +173,7 @@ export const deleteData = async (store, key) => {
   await initDB();
   return await new Promise((resolve, reject) => {
     const request = db
-      .transaction(store, 'readwrite')
+      .transaction(store, "readwrite")
       .objectStore(store)
       .delete(key);
     request.onsuccess = function () {
@@ -183,6 +183,19 @@ export const deleteData = async (store, key) => {
     request.onerror = function () {
       reject();
       console.error(`${store}数据删除失败！`);
+    };
+  });
+};
+
+export const deleteDB = async () => {
+  return await new Promise((resolve, reject) => {
+    const request = window.indexedDB.deleteDatabase("ljjDB");
+    request.onsuccess = function () {
+      resolve();
+    };
+    request.onerror = function () {
+      reject();
+      console.error("数据库删除失败！");
     };
   });
 };
