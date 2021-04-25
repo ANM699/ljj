@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { WhiteSpace, Modal, Button, Accordion, Flex } from 'antd-mobile';
-import Container from '../components/Container';
-import TemplateList from '../components/TemplateList';
-import EasterEggContext from '../context';
-import { insertData, selectAllData, deleteDB } from '../utils/indexDB';
+import React, { useState, useEffect, useContext } from "react";
+import { WhiteSpace, Modal, Button, Accordion, Flex } from "antd-mobile";
+import Container from "../components/Container";
+import TemplateList from "../components/TemplateList";
+import EasterEggContext from "../context";
+import { insertData, selectAllData, deleteDB } from "../utils/indexDB";
 
 const prompt = Modal.prompt;
 
@@ -11,7 +11,7 @@ export default function Home() {
   const context = useContext(EasterEggContext);
   const [projects, setProjects] = useState([]);
   useEffect(() => {
-    selectAllData('projects').then((res) => {
+    selectAllData("projects").then((res) => {
       setProjects(res);
     });
   }, []);
@@ -22,13 +22,13 @@ export default function Home() {
       null,
       [
         {
-          text: '取消',
+          text: "取消",
         },
         {
-          text: '确定',
+          text: "确定",
           onPress: (value) => {
             if (value) {
-              return insertData('projects', { name: value }).then((id) => {
+              return insertData("projects", { name: value }).then((id) => {
                 const newProjects = [...projects, { id, name: value }];
                 setProjects(newProjects);
               });
@@ -38,9 +38,9 @@ export default function Home() {
           },
         },
       ],
-      'default',
+      "default",
       null,
-      ['请输入项目名称']
+      ["请输入项目名称"]
     );
   };
 
@@ -63,19 +63,17 @@ export default function Home() {
       null,
       [
         {
-          text: '取消',
+          text: "取消",
         },
         {
-          text: '确定',
+          text: "确定",
           onPress: (value) => {
-            if (value === '删除') {
+            if (value === "删除") {
               return deleteDB().then(() => {
                 sessionStorage.clear();
-                selectAllData('projects').then((res) => {
-                  setProjects(res);
-                });
+                setProjects([]);
               });
-            } else if (value === '彩蛋') {
+            } else if (value === "彩蛋") {
               context.setEasterEgg(!context.easterEgg);
             } else {
               return Promise.reject();
@@ -83,9 +81,9 @@ export default function Home() {
           },
         },
       ],
-      'default',
+      "default",
       null,
-      ['输入“删除”确认操作']
+      ["输入“删除”确认操作"]
     );
   };
 
