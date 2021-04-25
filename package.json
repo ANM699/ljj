@@ -11,6 +11,7 @@
     "date-fns": "^2.21.1",
     "docx-templates": "^4.6.0",
     "jszip-utils": "^0.1.0",
+    "particles-bg": "^2.5.5",
     "rc-form": "^2.4.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

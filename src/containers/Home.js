@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { WhiteSpace, Modal, Button, Accordion, Flex } from 'antd-mobile';
 import Container from '../components/Container';
 import TemplateList from '../components/TemplateList';
+import EasterEggContext from '../context';
 import { insertData, selectAllData, deleteDB } from '../utils/indexDB';
 
 const prompt = Modal.prompt;
 
 export default function Home() {
+  const context = useContext(EasterEggContext);
   const [projects, setProjects] = useState([]);
-
   useEffect(() => {
     selectAllData('projects').then((res) => {
       setProjects(res);
@@ -74,6 +75,8 @@ export default function Home() {
                   setProjects(res);
                 });
               });
+            } else if (value === '彩蛋') {
+              context.setEasterEgg(!context.easterEgg);
             } else {
               return Promise.reject();
             }
@@ -87,27 +90,29 @@ export default function Home() {
   };
 
   return (
-    <Container navBar="项目列表">
-      <Accordion accordion>
-        {projects.map((project) => (
-          <Accordion.Panel key={project.id} header={project.name}>
-            <TemplateList project={project} />
-          </Accordion.Panel>
-        ))}
-      </Accordion>
-      <WhiteSpace />
-      <Flex>
-        <Flex.Item>
-          <Button type="primary" onClick={handleButtonClick}>
-            创建新项目
-          </Button>
-        </Flex.Item>
-        <Flex.Item>
-          <Button type="warning" onClick={handleDelClick}>
-            删除所有数据
-          </Button>
-        </Flex.Item>
-      </Flex>
-    </Container>
+    <>
+      <Container navBar="项目列表">
+        <Accordion accordion>
+          {projects.map((project) => (
+            <Accordion.Panel key={project.id} header={project.name}>
+              <TemplateList project={project} />
+            </Accordion.Panel>
+          ))}
+        </Accordion>
+        <WhiteSpace />
+        <Flex>
+          <Flex.Item>
+            <Button type="primary" onClick={handleButtonClick}>
+              创建新项目
+            </Button>
+          </Flex.Item>
+          <Flex.Item>
+            <Button type="warning" onClick={handleDelClick}>
+              删除所有数据
+            </Button>
+          </Flex.Item>
+        </Flex>
+      </Container>
+    </>
   );
 }
